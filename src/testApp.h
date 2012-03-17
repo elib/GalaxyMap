@@ -24,7 +24,11 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
+		void RegenerateGalaxy();
+
 		float currentRotation;
+
+		bool regenRequested;
 
 		Vec3fArray drawPoints;
 		

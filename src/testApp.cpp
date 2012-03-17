@@ -11,6 +11,8 @@ void testApp::setup()
 	 viewDegs = 85;
 	 tiltDegs = 5;
 
+	 regenRequested = false;
+
 	 zDist = -140;
 
      rotationAxis.set(0,0,1);
@@ -27,12 +29,21 @@ void testApp::setup()
      zAxisMin.set(0,0,-100);
      zAxisMax.set(0,0,100);
 
-	 //make spiral shape
-	 float dphi = PI / 5.0f;
+	 
+	 
+	 RegenerateGalaxy();
+}
+
+void testApp::RegenerateGalaxy()
+{
+	//make spiral shape
 	 float maxRad = 400.0f;
-	 float barRad = 200.0f;
-	 float N = 5.0f;
-	 float Phi = 0.45;
+
+	 float barRad = ofRandom(0.1f, 0.4f) * maxRad;
+	 float N = ofRandom(1.0f, 6.0f);
+	 float Phi = ofRandom(0.1f, 0.5f);
+
+	 float dphi = PI / 5.0f;
 	 float phi = 0;
 	 float r = 0;
 
@@ -44,6 +55,7 @@ void testApp::setup()
 	 {
 		 pointcount++;
 
+		 //found here: http://arxiv.org/ftp/arxiv/papers/0908/0908.0892.pdf
 		 float denom = 1.0f - N * (sinf(Phi / N) * tanf(Phi) * logf(tanf(phi/(2*N)) / tanf(Phi / (2*N)) ));
 		 phi += dphi;
 		 r = barRad / denom;
@@ -74,6 +86,12 @@ void testApp::setup()
 void testApp::update()
 {
 	currentRotation += speedOfRotation * ofGetLastFrameTime() * 1000;
+
+	if(regenRequested)
+	{
+		RegenerateGalaxy();
+		regenRequested = false;
+	}
 }
 
 //--------------------------------------------------------------
@@ -146,13 +164,15 @@ void testApp::keyPressed  (int key){
 	case '-':
 		zDist += 10;
 		break;
-
-        case 'a':
-            speedOfRotation += 0.05f;
-            break;
-        case 'z':
-            speedOfRotation -= 0.05f;
-            break;
+    case 'a':
+        speedOfRotation += 0.05f;
+        break;
+    case 'z':
+        speedOfRotation -= 0.05f;
+        break;
+	case OF_KEY_RETURN:
+		regenRequested = true;
+		break;
     }
 }
 
