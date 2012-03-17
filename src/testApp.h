@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-#define MAX_N_PTS         100
+#define MAX_N_PTS         200
 
 typedef vector< ofVec3f > Vec3fArray;
 
@@ -27,6 +27,8 @@ class testApp : public ofBaseApp{
 		void RegenerateGalaxy();
 
 		float currentRotation;
+
+		bool showCrosshair;
 
 		bool regenRequested;
 

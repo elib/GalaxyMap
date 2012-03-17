@@ -12,6 +12,7 @@ void testApp::setup()
 	 tiltDegs = 5;
 
 	 regenRequested = false;
+	 showCrosshair = false;
 
 	 zDist = -140;
 
@@ -39,9 +40,9 @@ void testApp::RegenerateGalaxy()
 	//make spiral shape
 	 float maxRad = 400.0f;
 
-	 float barRad = ofRandom(0.1f, 0.4f) * maxRad;
-	 float N = ofRandom(1.0f, 6.0f);
-	 float Phi = ofRandom(0.1f, 0.5f);
+	 float barRad = ofRandom(0.1f, 0.7f) * maxRad;
+	 //float N = ofRandom(1.0f, 4.0f);
+	 float Phi = ofRandom(0.35f, 0.7f);
 
 	 float dphi = PI / 5.0f;
 	 float phi = 0;
@@ -56,7 +57,12 @@ void testApp::RegenerateGalaxy()
 		 pointcount++;
 
 		 //found here: http://arxiv.org/ftp/arxiv/papers/0908/0908.0892.pdf
-		 float denom = 1.0f - N * (sinf(Phi / N) * tanf(Phi) * logf(tanf(phi/(2*N)) / tanf(Phi / (2*N)) ));
+		 //float denom = 1.0f - N * (sinf(Phi / N) * tanf(Phi) * logf(tanf(phi/(2*N)) / tanf(Phi / (2*N)) ));
+		 float denom = 1.0f - Phi*tanf(Phi)*log(phi/Phi);
+		 if(isnan(denom))
+		 {
+			 int j = 100;
+		 }
 		 phi += dphi;
 		 r = barRad / denom;
 
@@ -118,26 +124,30 @@ void testApp::draw()
 		 }
 		 ofEndShape();
 		 
-		 ofSetColor(50,50,255);
-		 glBegin(GL_LINES);
-			glVertex3f(xAxisMin.x, xAxisMin.y, xAxisMin.z);
-			glVertex3f(xAxisMax.x, xAxisMax.y, xAxisMax.z);
-			glVertex3f(yAxisMin.x, yAxisMin.y, yAxisMin.z);
-			glVertex3f(yAxisMax.x, yAxisMax.y, yAxisMax.z);
-			glVertex3f(zAxisMin.x, zAxisMin.y, zAxisMin.z);
-			glVertex3f(zAxisMax.x, zAxisMax.y, zAxisMax.z);
-		 glEnd();
+		 if(showCrosshair)
+		 {
+			 ofSetColor(50,50,255);
+			 glBegin(GL_LINES);
+				glVertex3f(xAxisMin.x, xAxisMin.y, xAxisMin.z);
+				glVertex3f(xAxisMax.x, xAxisMax.y, xAxisMax.z);
+				glVertex3f(yAxisMin.x, yAxisMin.y, yAxisMin.z);
+				glVertex3f(yAxisMax.x, yAxisMax.y, yAxisMax.z);
+				glVertex3f(zAxisMin.x, zAxisMin.y, zAxisMin.z);
+				glVertex3f(zAxisMax.x, zAxisMax.y, zAxisMax.z);
+			 glEnd();
+		 }
 
 	 ofPopMatrix();
 
      string info = "speed of rotation (a/z): " + ofToString(speedOfRotation,3) + "\n" +
                   "view degrees (up/down): " + ofToString(viewDegs, 3) + "\n" +
                   "tilt degrees (left/right): " + ofToString(tiltDegs,3) + "\n" +
-				  "z distance (+/-): " + ofToString(zDist,3) + "\n";
+				  "z distance (+/-): " + ofToString(zDist,3) + "\n" + 
+				  "(RETURN regen, X toggle crosshair)\n";
 
      ofFill();
      ofSetHexColor(0xE5A93F);
-     ofRect(10,10,300,70);
+     ofRect(10,10,300,90);
      ofSetHexColor(0x000000);
      ofDrawBitmapString(info,30,30);
 }
@@ -170,6 +180,9 @@ void testApp::keyPressed  (int key){
     case 'z':
         speedOfRotation -= 0.05f;
         break;
+	case 'x':
+		showCrosshair = !showCrosshair;
+		break;
 	case OF_KEY_RETURN:
 		regenRequested = true;
 		break;
