@@ -32,8 +32,9 @@ class testApp : public ofBaseApp{
 		int		nPts;
 
 		ofVec3f	rotationAxis;  // amount to rotate in x,y,z;
-		ofVec3f viewingAngleAxis;
 		float	speedOfRotation; // speed;
+
+		float viewDegs, tiltDegs, zDist;
 
 		// a grid helpful for seeing the rotation
 		ofVec3f	xAxisMin;
