@@ -107,7 +107,7 @@ void testApp::DistributeCloud()
 			//find distance to galactic curve
 			float distance = DistanceToGalaxy(testPoint);
 			//apply probability --> random
-			float randomTest = expf( - distance / MAX_GALAXY_RADIUS);
+			float randomTest = expf( - distance * 10 / MAX_GALAXY_RADIUS);
 			float rand = ofRandom(0, 1.0f);
 			if(rand < randomTest)
 			{
@@ -246,6 +246,11 @@ void testApp::draw()
 			ofVertex(pts[i].x, pts[i].y);
 		}
 		ofEndShape();
+
+		for(int i = 0; i < cloudPoints.size(); i++)
+		{
+			ofCircle(cloudPoints[i], 2);
+		}
 
 		if(showCrosshair)
 		{
