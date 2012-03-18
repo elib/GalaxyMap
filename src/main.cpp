@@ -5,7 +5,7 @@
 //========================================================================
 int main( ){
 
-    ofAppGlutWindow window;
+	ofAppGlutWindow window;
 	ofSetupOpenGL(&window, 1024,768, OF_WINDOW);			// <-------- setup the GL context
 	//window.setGlutDisplayString("rgba double samples>=4");
 

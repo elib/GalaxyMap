@@ -8,46 +8,45 @@ typedef vector< ofVec3f > Vec3fArray;
 
 class testApp : public ofBaseApp{
 
-	public:
+public:
 
-		void setup();
-		void update();
-		void draw();
-		
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
+	void setup();
+	void update();
+	void draw();
 
-		void RegenerateGalaxy();
+	void keyPressed(int key);
+	void keyReleased(int key);
+	void mouseMoved(int x, int y );
+	void mouseDragged(int x, int y, int button);
+	void mousePressed(int x, int y, int button);
+	void mouseReleased(int x, int y, int button);
+	void windowResized(int w, int h);
+	void dragEvent(ofDragInfo dragInfo);
+	void gotMessage(ofMessage msg);
 
-		float currentRotation;
+	void RegenerateGalaxy();
 
-		bool showCrosshair;
+	float currentRotation;
 
-		bool regenRequested;
+	bool showCrosshair;
 
-		Vec3fArray drawPoints;
-		
-		ofVec3f	pts[MAX_N_PTS];
-		int		nPts;
+	bool regenRequested;
 
-		ofVec3f	rotationAxis;  // amount to rotate in x,y,z;
-		float	speedOfRotation; // speed;
+	Vec3fArray drawPoints;
 
-		float viewDegs, tiltDegs, zDist;
+	ofVec3f	pts[MAX_N_PTS];
+	int		nPts;
 
-		// a grid helpful for seeing the rotation
-		ofVec3f	xAxisMin;
-		ofVec3f	xAxisMax;
-		ofVec3f	yAxisMin;
-		ofVec3f	yAxisMax;
-		ofVec3f	zAxisMin;
-		ofVec3f	zAxisMax;
+	ofVec3f	rotationAxis;  // amount to rotate in x,y,z;
+	float	speedOfRotation; // speed;
+
+	float viewDegs, tiltDegs, zDist;
+
+	// a grid helpful for seeing the rotation
+	ofVec3f	xAxisMin;
+	ofVec3f	xAxisMax;
+	ofVec3f	yAxisMin;
+	ofVec3f	yAxisMax;
+	ofVec3f	zAxisMin;
+	ofVec3f	zAxisMax;
 };
-
