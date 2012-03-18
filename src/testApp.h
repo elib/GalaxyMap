@@ -2,11 +2,16 @@
 
 #include "ofMain.h"
 
-#define MAX_N_PTS         200
+#define MAX_N_PTS			200
+#define MAX_CLOUD_POINTS	500
+
+#define MAX_GALAXY_RADIUS	(400.0f)
+#define GALAXY_THICKNESS	(50.0f)
 
 typedef vector< ofVec3f > Vec3fArray;
 
-class testApp : public ofBaseApp{
+class testApp : public ofBaseApp
+{
 
 public:
 
@@ -25,6 +30,10 @@ public:
 	void gotMessage(ofMessage msg);
 
 	void RegenerateGalaxy();
+	void DistributeCloud();
+	float DistanceToGalaxy(ofVec3f testPoint);
+	int FindClosestGalaxyPoint(ofVec3f testPoint);
+	float PointToSegmentDistance( ofVec3f P, ofVec3f P0, ofVec3f P1 );
 
 	float currentRotation;
 
@@ -32,7 +41,7 @@ public:
 
 	bool regenRequested;
 
-	Vec3fArray drawPoints;
+	Vec3fArray cloudPoints;
 
 	ofVec3f	pts[MAX_N_PTS];
 	int		nPts;

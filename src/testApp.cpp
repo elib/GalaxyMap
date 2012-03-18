@@ -38,7 +38,7 @@ void testApp::setup()
 void testApp::RegenerateGalaxy()
 {
 	//make spiral shape
-	float maxRad = 400.0f;
+	float maxRad = MAX_GALAXY_RADIUS;
 
 	float barRad = ofRandom(0.1f, 0.7f) * maxRad;
 	//float N = ofRandom(1.0f, 4.0f);
@@ -86,6 +86,129 @@ void testApp::RegenerateGalaxy()
 		nPts ++;
 		pts[nPts] = (temp_points[i]);
 	}
+
+	DistributeCloud();
+}
+
+void testApp::DistributeCloud()
+{
+	cloudPoints.clear();
+
+	for(int i = 0; i < MAX_CLOUD_POINTS; i++)
+	{
+		bool found = false;
+
+		while(!found)
+		{
+			//random point in space
+			ofVec3f testPoint(ofRandom(-MAX_GALAXY_RADIUS, MAX_GALAXY_RADIUS),
+				ofRandom(-MAX_GALAXY_RADIUS, MAX_GALAXY_RADIUS), 
+				ofRandom(-GALAXY_THICKNESS, GALAXY_THICKNESS));
+			//find distance to galactic curve
+			float distance = DistanceToGalaxy(testPoint);
+			//apply probability --> random
+			float randomTest = expf( - distance / MAX_GALAXY_RADIUS);
+			float rand = ofRandom(0, 1.0f);
+			if(rand < randomTest)
+			{
+				//accept!
+				found = true;
+				cloudPoints.push_back(testPoint);
+			}
+			else
+			{
+				float eli = -1;
+			}
+
+			//if fail, retry random point
+		}
+	}
+}
+
+float testApp::DistanceToGalaxy(ofVec3f testPoint)
+{
+	//find closest point in list?
+	int closestPoint = FindClosestGalaxyPoint(testPoint);
+	if(closestPoint == -1)
+	{
+		int j = 4;
+		//ERROR, should probably never happen. Maybe!
+	}
+	//choose second closest point that is +/-1 point away
+	int secondPoint;
+	if(closestPoint != 0 && closestPoint != (nPts-1))
+	{
+		//there are two options for segments, plus or minus.
+		int candidate1 = closestPoint -1;
+		int candidate2 = closestPoint +1;
+		if(testPoint.distanceSquared(pts[candidate1])
+			< testPoint.distanceSquared(pts[candidate2]))
+		{
+			//1 is closer
+			secondPoint = candidate1;
+		}
+		else
+		{
+			secondPoint = candidate2;
+		}
+	}
+	else if (closestPoint == 0)
+	{
+		secondPoint = 1;
+	}
+	else
+	{
+		secondPoint = nPts - 2;
+	}
+
+	//Determine distance to straight line defined by these two points.
+	float distance = PointToSegmentDistance(testPoint, pts[closestPoint], pts[secondPoint]);
+	return distance;
+}
+
+float testApp::PointToSegmentDistance( ofVec3f P, ofVec3f P0, ofVec3f P1 )
+{
+	//found here, I guess
+	//http://www.softsurfer.com/Archive/algorithm_0102/algorithm_0102.htm
+
+	ofVec3f v = P1 - P0;
+	ofVec3f w = P - P0;
+
+	//before P0
+	float c1 = w.dot(v);
+	if ( c1 <= 0 )
+	{
+		return P.distance(P0);
+	}
+
+	//past P1
+	float c2 = v.dot(v);
+	if ( c2 <= c1 )
+	{
+		return P.distance(P1);
+	}
+
+	//not outside of the edges
+	float b = c1 / c2;
+	ofVec3f Pb = P0 + v * b;
+	return P.distance(Pb);
+}
+
+int testApp::FindClosestGalaxyPoint(ofVec3f testPoint)
+{
+	int closestPoint = -1;
+	float closestDist = powf(MAX_GALAXY_RADIUS * 2, 2);
+	for(int i = 0; i < nPts; i++)
+	{
+		float thisDist = testPoint.distanceSquared(pts[i]);
+		if(thisDist < closestDist)
+		{
+			closestDist = thisDist;
+			closestPoint = i;
+		}
+	}
+
+	return closestPoint;
 }
 
 //--------------------------------------------------------------
