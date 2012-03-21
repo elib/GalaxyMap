@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Star.h"
 
 #define MAX_N_PTS			200
 #define MAX_CLOUD_POINTS	500
@@ -9,6 +10,7 @@
 #define GALAXY_THICKNESS	(50.0f)
 
 typedef vector< ofVec3f > Vec3fArray;
+typedef vector< Star > StarArray;
 
 class testApp : public ofBaseApp
 {
@@ -41,7 +43,7 @@ public:
 
 	bool regenRequested;
 
-	Vec3fArray cloudPoints;
+	StarArray galaxyStars;
 
 	ofVec3f	pts[MAX_N_PTS];
 	int		nPts;

@@ -92,7 +92,7 @@ void testApp::RegenerateGalaxy()
 
 void testApp::DistributeCloud()
 {
-	cloudPoints.clear();
+	galaxyStars.clear();
 
 	for(int i = 0; i < MAX_CLOUD_POINTS; i++)
 	{
@@ -113,7 +113,8 @@ void testApp::DistributeCloud()
 			{
 				//accept!
 				found = true;
-				cloudPoints.push_back(testPoint);
+				Star s(testPoint, (int)ofRandom(0xffffff), ofRandom(1, 3));
+				galaxyStars.push_back(s);
 			}
 			else
 			{
@@ -247,15 +248,19 @@ void testApp::draw()
 		}
 		ofEndShape();
 
-		for(int i = 0; i < cloudPoints.size(); i++)
+		for(int i = 0; i < galaxyStars.size(); i++)
 		{
+			//"billboard" those stars, and orient them towards the camera always
 			ofPushMatrix();
-				ofTranslate(cloudPoints[i]);
+				ofTranslate(galaxyStars[i].location);
 				ofRotateZ(-currentRotation);
 				ofRotateY(-tiltDegs);
 				ofRotateX(-viewDegs);
 
-				ofCircle(ofVec3f(0,0,0), 2);
+				//ofSetHexColor(0xf9d35e);
+				ofSetHexColor(galaxyStars[i].color);
+				ofFill();
+				ofCircle(ofVec3f(0,0,0), 3);//galaxyStars[i].baseSize);
 			ofPopMatrix();
 		}
 
