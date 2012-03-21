@@ -3,11 +3,13 @@
 #include "ofMain.h"
 #include "Star.h"
 
+#define ASPECT_RATIO (1.77f)
+
 #define MAX_N_PTS			200
 #define MAX_CLOUD_POINTS	2500
 
 #define MAX_GALAXY_RADIUS	(420.0f)
-#define GALAXY_THICKNESS	(200.0f)
+#define GALAXY_THICKNESS	(150.0f)
 
 typedef vector< ofVec3f > Vec3fArray;
 typedef vector< Star > StarArray;
@@ -40,6 +42,7 @@ public:
 	float currentRotation;
 
 	bool showCrosshair;
+	bool showGalaxyLines;
 
 	bool regenRequested;
 

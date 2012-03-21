@@ -15,6 +15,7 @@ void testApp::setup()
 
 	regenRequested = false;
 	showCrosshair = false;
+	showGalaxyLines = true;
 
 	zDist = -140;
 
@@ -42,9 +43,9 @@ void testApp::RegenerateGalaxy()
 	//make spiral shape
 	float maxRad = MAX_GALAXY_RADIUS;
 
-	float barRad = ofRandom(0.1f, 0.7f) * maxRad;
-	//float N = ofRandom(1.0f, 4.0f);
-	float Phi = ofRandom(0.45f, 0.65f);
+	float barRad = ofRandom(0.2f, 0.6f) * maxRad;
+	float Phi = ofRandom(0.45f, 0.55f);
+	//float Phi = 0.5f;
 
 	float dphi = PI / 5.0f;
 	float phi = 0;
@@ -247,12 +248,15 @@ void testApp::draw()
 		ofSetHexColor(0xffffff);
 		ofNoFill();
 
-		ofBeginShape();
-		for (int i = 0; i < nPts; i++)
+		if(showGalaxyLines)
 		{
-			ofVertex(pts[i].x, pts[i].y);
+			ofBeginShape();
+			for (int i = 0; i < nPts; i++)
+			{
+				ofVertex(pts[i].x, pts[i].y);
+			}
+			ofEndShape();
 		}
-		ofEndShape();
 
 		for(int i = 0; i < galaxyStars.size(); i++)
 		{
@@ -330,6 +334,9 @@ void testApp::keyPressed  (int key){
 		break;
 	case 'x':
 		showCrosshair = !showCrosshair;
+		break;
+	case 'g':
+		showGalaxyLines = !showGalaxyLines;
 		break;
 	case OF_KEY_RETURN:
 		regenRequested = true;

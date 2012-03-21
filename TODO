@@ -1,0 +1,4 @@
+* Fix distributions of stars
+	* Have the distance from the center (measured in points leaving the center, not absolute distance) dictate the tolerance of point distance away from the line. (Should have galaxies that sprawl out towards edges)
+* Add color dependent on distance from center (this SHOULD be absolute distance) -- simulate "older" stars further out.
+	* Also: get the colors right. Have a few shades (yellow for 90% of the stars, blue and red for the rest), distribute them randomly in a good way.
