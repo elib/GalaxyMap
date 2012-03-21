@@ -4,7 +4,7 @@
 #include "Star.h"
 
 #define MAX_N_PTS			200
-#define MAX_CLOUD_POINTS	500
+#define MAX_CLOUD_POINTS	2000
 
 #define MAX_GALAXY_RADIUS	(400.0f)
 #define GALAXY_THICKNESS	(50.0f)

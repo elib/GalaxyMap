@@ -6,6 +6,8 @@ void testApp::setup()
 {
 	ofEnableSmoothing();
 
+	glEnable(GL_DEPTH_TEST);
+
 	nPts = 0;
 	currentRotation  = 0;
 	viewDegs = 85;
@@ -260,7 +262,7 @@ void testApp::draw()
 				//ofSetHexColor(0xf9d35e);
 				ofSetHexColor(galaxyStars[i].color);
 				ofFill();
-				ofCircle(ofVec3f(0,0,0), 3);//galaxyStars[i].baseSize);
+				ofCircle(ofVec3f(0,0,0), galaxyStars[i].baseSize);
 			ofPopMatrix();
 		}
 
