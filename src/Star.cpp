@@ -1,7 +1,7 @@
 #include "Star.h"
 
 
-Star::Star(ofVec3f loc, int col, float starSize)
+Star::Star(ofVec3f loc, ofColor col, float starSize)
 {
 	location = loc;
 	color = col;

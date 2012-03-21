@@ -120,7 +120,25 @@ void testApp::DistributeCloud()
 				//accept!
 				pointsAccepted++;
 				found = true;
-				Star s(testPoint, (int)ofRandom(0xffffff), ofRandom(1, 2) * randomTest);
+
+				//available colors: blue, red, yellow
+				const int availableColors[3] = {0x00c7ff, 0xff2d26, 0xffd65b};
+				const float percentages[3] = {0.02f, 0.1f, 1.0f};
+				float colorZoneRand = ofRandom(1.0f);
+				int colorZone = 0;
+				while(colorZoneRand > percentages[colorZone])
+					colorZone++;
+				ofColor thecolor = ofColor::fromHex(availableColors[colorZone]);
+
+				//quadratic gradient from center
+				float distanceFromCenter = testPoint.distanceSquared(ofVec3f(0,0,0));
+				float maxDist = powf(MAX_GALAXY_RADIUS, 2);
+				float ratio = distanceFromCenter / maxDist;
+				float brightnessAmount = MIN((((1 - ratio) + 0.1f) * 255 * 1.1), 255);
+
+				thecolor.setBrightness(brightnessAmount);
+
+				Star s(testPoint, thecolor, ofRandom(1, 2) * randomTest);
 				galaxyStars.push_back(s);
 			}
 			else
@@ -268,7 +286,7 @@ void testApp::draw()
 				ofRotateX(-viewDegs);
 
 				//ofSetHexColor(0xf9d35e);
-				ofSetHexColor(galaxyStars[i].color);
+				ofSetColor(galaxyStars[i].color);
 				ofFill();
 				ofCircle(ofVec3f(0,0,0), galaxyStars[i].baseSize);
 			ofPopMatrix();

@@ -5,11 +5,11 @@
 class Star
 {
 public:
-	Star(ofVec3f loc, int col, float starSize);
+	Star(ofVec3f loc, ofColor col, float starSize);
 	~Star(void);
 
 	ofVec3f location;
-	int color;
+	ofColor color;
 	float baseSize;
 
 };
