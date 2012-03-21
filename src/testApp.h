@@ -4,9 +4,9 @@
 #include "Star.h"
 
 #define MAX_N_PTS			200
-#define MAX_CLOUD_POINTS	2000
+#define MAX_CLOUD_POINTS	2500
 
-#define MAX_GALAXY_RADIUS	(500.0f)
+#define MAX_GALAXY_RADIUS	(420.0f)
 #define GALAXY_THICKNESS	(200.0f)
 
 typedef vector< ofVec3f > Vec3fArray;
@@ -42,6 +42,8 @@ public:
 	bool showCrosshair;
 
 	bool regenRequested;
+
+	int pointsTested, pointsAccepted;
 
 	StarArray galaxyStars;
 

@@ -44,7 +44,7 @@ void testApp::RegenerateGalaxy()
 
 	float barRad = ofRandom(0.1f, 0.7f) * maxRad;
 	//float N = ofRandom(1.0f, 4.0f);
-	float Phi = ofRandom(0.35f, 0.7f);
+	float Phi = ofRandom(0.45f, 0.65f);
 
 	float dphi = PI / 5.0f;
 	float phi = 0;
@@ -96,12 +96,15 @@ void testApp::DistributeCloud()
 {
 	galaxyStars.clear();
 
+	pointsAccepted = 0;
+	pointsTested = 0;
 	for(int i = 0; i < MAX_CLOUD_POINTS; i++)
 	{
 		bool found = false;
 
 		while(!found)
 		{
+			pointsTested ++;
 			//random point in space
 			ofVec3f testPoint(ofRandom(-MAX_GALAXY_RADIUS, MAX_GALAXY_RADIUS),
 				ofRandom(-MAX_GALAXY_RADIUS, MAX_GALAXY_RADIUS), 
@@ -109,13 +112,14 @@ void testApp::DistributeCloud()
 			//find distance to galactic curve
 			float distance = DistanceToGalaxy(testPoint);
 			//apply probability --> random
-			float randomTest = expf( - distance * 30 / MAX_GALAXY_RADIUS);
+			float randomTest = expf( - distance * 20 / MAX_GALAXY_RADIUS);
 			float rand = ofRandom(0, 1.0f);
 			if(rand < randomTest)
 			{
 				//accept!
+				pointsAccepted++;
 				found = true;
-				Star s(testPoint, (int)ofRandom(0xffffff), ofRandom(1, 5) * randomTest);
+				Star s(testPoint, (int)ofRandom(0xffffff), ofRandom(1, 2) * randomTest);
 				galaxyStars.push_back(s);
 			}
 			else
@@ -285,12 +289,14 @@ void testApp::draw()
 		"view degrees (up/down): " + ofToString(viewDegs, 3) + "\n" +
 		"tilt degrees (left/right): " + ofToString(tiltDegs,3) + "\n" +
 		"z distance (+/-): " + ofToString(zDist,3) + "\n" + 
-		"(RETURN regen, X toggle crosshair)\n";
+		"(RETURN regen, X toggle crosshair)\n" + 
+		"Points accepted/total: " + ofToString(pointsAccepted) + "/" + ofToString(pointsTested)
+			+ " = " + ofToString(pointsAccepted / ((float)pointsTested), 3);
 
-	ofFill();
-	ofSetHexColor(0xE5A93F);
-	ofRect(10,10,300,90);
-	ofSetHexColor(0x000000);
+	//ofFill();
+	//ofSetHexColor(0xE5A93F);
+	//ofRect(10,10,300,90);
+	ofSetHexColor(0xcccccc);
 	ofDrawBitmapString(info,30,30);
 }
 
