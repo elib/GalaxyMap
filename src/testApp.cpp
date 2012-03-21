@@ -249,7 +249,14 @@ void testApp::draw()
 
 		for(int i = 0; i < cloudPoints.size(); i++)
 		{
-			ofCircle(cloudPoints[i], 2);
+			ofPushMatrix();
+				ofTranslate(cloudPoints[i]);
+				ofRotateZ(-currentRotation);
+				ofRotateY(-tiltDegs);
+				ofRotateX(-viewDegs);
+
+				ofCircle(ofVec3f(0,0,0), 2);
+			ofPopMatrix();
 		}
 
 		if(showCrosshair)
