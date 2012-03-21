@@ -109,13 +109,13 @@ void testApp::DistributeCloud()
 			//find distance to galactic curve
 			float distance = DistanceToGalaxy(testPoint);
 			//apply probability --> random
-			float randomTest = expf( - distance * 10 / MAX_GALAXY_RADIUS);
+			float randomTest = expf( - distance * 30 / MAX_GALAXY_RADIUS);
 			float rand = ofRandom(0, 1.0f);
 			if(rand < randomTest)
 			{
 				//accept!
 				found = true;
-				Star s(testPoint, (int)ofRandom(0xffffff), ofRandom(1, 3));
+				Star s(testPoint, (int)ofRandom(0xffffff), ofRandom(1, 5) * randomTest);
 				galaxyStars.push_back(s);
 			}
 			else
