@@ -111,9 +111,16 @@ void testApp::DistributeCloud()
 				ofRandom(-MAX_GALAXY_RADIUS, MAX_GALAXY_RADIUS), 
 				ofRandom(-GALAXY_THICKNESS, GALAXY_THICKNESS));
 			//find distance to galactic curve
-			float distance = DistanceToGalaxy(testPoint);
+			int closestPoint = -1;
+			float distance = DistanceToGalaxy(testPoint, closestPoint);
+
+			//"distance" from center, along the spiral, in terms of point intervals
+			int spiralPointDistance = abs((closestPoint - nPts/2));
+			float ratioAlongSpiral = 1.0f - (spiralPointDistance / ((float)nPts));
+			ratioAlongSpiral = powf(ratioAlongSpiral, 2);
+
 			//apply probability --> random
-			float randomTest = expf( - distance * 20 / MAX_GALAXY_RADIUS);
+			float randomTest = expf( - distance * 30 * ratioAlongSpiral / MAX_GALAXY_RADIUS);
 			float rand = ofRandom(0, 1.0f);
 			if(rand < randomTest)
 			{
@@ -122,7 +129,7 @@ void testApp::DistributeCloud()
 				found = true;
 
 				//available colors: blue, red, yellow
-				const int availableColors[3] = {0x00c7ff, 0xff2d26, 0xffd65b};
+				const int availableColors[3] = {0x66ccff, 0xffdd55, 0xffddbb};
 				const float percentages[3] = {0.02f, 0.1f, 1.0f};
 				float colorZoneRand = ofRandom(1.0f);
 				int colorZone = 0;
@@ -151,10 +158,10 @@ void testApp::DistributeCloud()
 	}
 }
 
-float testApp::DistanceToGalaxy(ofVec3f testPoint)
+float testApp::DistanceToGalaxy(ofVec3f testPoint, int& closestPoint)
 {
 	//find closest point in list?
-	int closestPoint = FindClosestGalaxyPoint(testPoint);
+	closestPoint = FindClosestGalaxyPoint(testPoint);
 	if(closestPoint == -1)
 	{
 		int j = 4;

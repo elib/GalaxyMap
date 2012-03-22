@@ -35,7 +35,7 @@ public:
 
 	void RegenerateGalaxy();
 	void DistributeCloud();
-	float DistanceToGalaxy(ofVec3f testPoint);
+	float DistanceToGalaxy(ofVec3f testPoint, int& closestPoint);
 	int FindClosestGalaxyPoint(ofVec3f testPoint);
 	float PointToSegmentDistance( ofVec3f P, ofVec3f P0, ofVec3f P1 );
 
