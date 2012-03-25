@@ -38,6 +38,7 @@ public:
 	float DistanceToGalaxy(ofVec3f testPoint, int& closestPoint);
 	int FindClosestGalaxyPoint(ofVec3f testPoint);
 	float PointToSegmentDistance( ofVec3f P, ofVec3f P0, ofVec3f P1 );
+	float SquashedDistance(ofVec3f p1, ofVec3f p2);
 
 	float currentRotation;
 

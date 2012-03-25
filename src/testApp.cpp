@@ -139,13 +139,17 @@ void testApp::DistributeCloud()
 
 				//quadratic gradient from center
 				float distanceFromCenter = testPoint.distanceSquared(ofVec3f(0,0,0));
-				float maxDist = powf(MAX_GALAXY_RADIUS, 2);
+				float maxDist = 2*powf(MAX_GALAXY_RADIUS, 2) + powf(GALAXY_THICKNESS/2, 2);
 				float ratio = distanceFromCenter / maxDist;
-				float brightnessAmount = MIN((((1 - ratio) + 0.1f) * 255 * 1.1), 255);
+				if(ratio > 1)
+				{
+					int q = 0;
+				}
+				float brightnessAmount = MIN((((1 - ratio) - 0.5f) * 255 ), 255);
 
 				thecolor.setBrightness(brightnessAmount);
 
-				Star s(testPoint, thecolor, ofRandom(1, 2) * randomTest);
+				Star s(testPoint, thecolor, 1/* * randomTest*/);
 				galaxyStars.push_back(s);
 			}
 			else
@@ -211,20 +215,31 @@ float testApp::PointToSegmentDistance( ofVec3f P, ofVec3f P0, ofVec3f P1 )
 	float c1 = w.dot(v);
 	if ( c1 <= 0 )
 	{
-		return P.distance(P0);
+		//return P.distance(P0);
+		return SquashedDistance(P, P0);
 	}
 
 	//past P1
 	float c2 = v.dot(v);
 	if ( c2 <= c1 )
 	{
-		return P.distance(P1);
+		//return P.distance(P1);
+		return SquashedDistance(P, P1);
 	}
 
 	//not outside of the edges
 	float b = c1 / c2;
 	ofVec3f Pb = P0 + v * b;
-	return P.distance(Pb);
+	//return P.distance(Pb);
+
+	return SquashedDistance(P, Pb);
+}
+
+float testApp::SquashedDistance(ofVec3f p1, ofVec3f p2)
+{
+	ofVec3f diff = p1 - p2;
+	diff.z *= 8;
+	return diff.length();
 }
 
 int testApp::FindClosestGalaxyPoint(ofVec3f testPoint)
